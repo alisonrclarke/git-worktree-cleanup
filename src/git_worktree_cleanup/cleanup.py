@@ -250,13 +250,12 @@ def cleanup():
             worktree_dir, subdir, subdir_path, subdir_status, subdir_branch
         )
 
-    # Now we've looped over subdirs, check for remaining unmerged local branches
+    # Now we've looped over subdirs, check for any unmerged local branches that we haven't already processed
     local_branches = {
-        h.name: h for h in repo.heads if not default_branch_pattern.match(h.name)
+        h.name: h
+        for h in repo.heads
+        if not default_branch_pattern.match(h.name) and h.name not in subdirs
     }
-
-    if len(sys.argv) > 2:
-        local_branches = {k: v for k, v in local_branches.items() if k == sys.argv[2]}
 
     for branch_name, head in local_branches.items():
         merged = _is_branch_merged(
