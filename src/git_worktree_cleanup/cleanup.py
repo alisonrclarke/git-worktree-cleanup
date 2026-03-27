@@ -136,7 +136,7 @@ def _is_branch_merged(
     return merged
 
 
-def main():
+def cleanup():
 
     subdirs = None
 
@@ -264,7 +264,3 @@ def main():
         )
         if merged and confirm(f"Delete merged local branch {branch_name}?"):
             print(_run_git_cmd(worktree_dir, "branch", "-D", branch_name))
-
-
-if __name__ == "__main__":
-    main()
